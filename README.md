@@ -2,7 +2,7 @@ Puzzle Cube
 ==========
 [![License](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)](http://www.wtfpl.net/)
 
-*This is a simple **OpenGL** plus **C++* project for the university. Sorry for the code quality, I don't really like to spend my time on it.*
+_This is a simple **OpenGL** plus **C++** project for the university. Sorry for the code quality, I don't really like to spend my time on it._
 
 Report a bug or request a feature
 ----------------
