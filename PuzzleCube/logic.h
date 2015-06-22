@@ -99,7 +99,7 @@ public:
 		callback(COMPLETED);
 	}
 
-	void new_game() {
+	void newGame() {
 		shuffle();
 		steps = 0;
 		clock_cc = 0;

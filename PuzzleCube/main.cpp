@@ -22,14 +22,14 @@ static const int STATE_GAME_PAUSED = 3;
 
 // Ids
 static const int ID_EMPTY = 0;
-
+// Back
 static const int ID_BACK_TO_MENU = 1;
 static const int ID_BACK_TO_OS = 2;
-
+// Menu
 static const int ID_MENU_STATS = 400;
 static const int ID_MENU_ABOUT = 500;
 static const int ID_MENU_HELP = 600;
-
+// Game
 static const int ID_GAME_NEW = 1000;
 static const int ID_GAME_LOAD = 2000;
 static const int ID_GAME_RESUME = 3000;
@@ -37,17 +37,17 @@ static const int ID_GAME_PAUSE = 4000;
 static const int ID_GAME_SAVE = 5000;
 
 static const int KEY_Q = 81;
-static const int KEY_q = 113;
+static const int KEY_q = KEY_Q + 32;
 static const int KEY_W = 87;
-static const int KEY_w = 119;
+static const int KEY_w = KEY_W + 32;
 static const int KEY_E = 69;
-static const int KEY_e = 101;
+static const int KEY_e = KEY_E + 32;
 static const int KEY_A = 65;
-static const int KEY_a = 97;
+static const int KEY_a = KEY_A + 32;
 static const int KEY_S = 83;
-static const int KEY_s = 115;
+static const int KEY_s = KEY_S + 32;
 static const int KEY_D = 68;
-static const int KEY_d = 100;
+static const int KEY_d = KEY_D + 32;
 
 // Render
 static int   button = -1;
@@ -512,14 +512,14 @@ void logicCallback(int event) {
 	{
 	case Logic::COMPLETED:
 	{
-							 cout << "Completed!" << endl;
+		cout << "Completed!" << endl;
 
-							 // Save result
-							 Result* result = new Result(logic->getTime(), logic->getSteps());
-							 history::put(result);
-							 delete result;
+		// Save result
+		Result* result = new Result(logic->getTime(), logic->getSteps());
+		history::put(result);
+		delete result;
 
-							 setState(STATE_GAME_COMPLETED);
+		setState(STATE_GAME_COMPLETED);
 	}
 		break;
 	case Logic::NEW_GAME:
@@ -556,7 +556,7 @@ void menuBtnClick(int id) {
 		/* new game */
 	case ID_GAME_NEW:
 		setState(STATE_GAME);
-		logic->new_game();
+		logic->newGame();
 		logic->resume();
 		break;
 		/* load the game */
@@ -596,8 +596,12 @@ void initLogic()
 
 void initMenu()
 {
+	MenuItem* space = new MenuItem(ID_EMPTY, " ", 0, 16);
+	MenuItem* back = new MenuItem(ID_BACK_TO_MENU, "<--", 64, 48);
+
+	/* Main menu of the game */
 	menu = new Menu(new MenuItem*[] {
-		new MenuItem(ID_GAME_NEW, "New game", 156, 48),
+			new MenuItem(ID_GAME_NEW, "New game", 156, 48),
 			new MenuItem(ID_GAME_LOAD, "Load", 156, 48),
 			new MenuItem(ID_MENU_STATS, "Stats", 156, 48),
 			new MenuItem(ID_MENU_ABOUT, "About", 156, 48),
@@ -605,37 +609,42 @@ void initMenu()
 			new MenuItem(ID_BACK_TO_OS, "Exit", 156, 48),
 	}, 6, &menuBtnClick);
 
+	/* Stats */
+	menuStats = new Menu(new MenuItem*[] { 
+			new MenuItem(ID_EMPTY, "The stats has been printed\nto console.", 256, 86),
+			space,
+			back,
+	}, 3, &menuBtnClick);
+
+	/* About */
+	menuAbout = new Menu(new MenuItem*[] {
+			new MenuItem(ID_EMPTY, "(c) Artem Chepurnoy\n<mail@artemchep.com>\n\nPuzzle Cube is a free open\nsource game, created by a\nC++/OGL newbie as the uni\nproject.", 256, 200),
+			space,
+			back,
+	}, 3, &menuBtnClick);
+
+	/* Help */
+	menuHelp = new Menu(new MenuItem*[] {
+			new MenuItem(ID_EMPTY, "Rearrange the tiles as\nfollows:\n\n19-20-21  10-11-12  1-2-3\n22-23-24  13-14-15  4-5-6\n25-26        16-17-18  7-8-9\n\nusing Q,A,W,S,E,D keys\nto move.", 256, 200),
+			space,
+			back,
+	}, 3, &menuBtnClick);
+
+	/* Pause */
 	menuPause = new Menu(new MenuItem*[] {
-		new MenuItem(ID_GAME_NEW, "New game", 156, 48),
+			new MenuItem(ID_GAME_NEW, "New game", 156, 48),
 			new MenuItem(ID_GAME_RESUME, "Resume", 156, 48),
 			new MenuItem(ID_GAME_SAVE, "Save", 156, 48),
 			new MenuItem(ID_GAME_LOAD, "Load", 156, 48),
-			new MenuItem(ID_EMPTY, " ", 0, 16),
-			new MenuItem(ID_BACK_TO_MENU, "<--", 64, 48),
+			space,
+			back,	
 	}, 6, &menuBtnClick);
 
-	menuStats = new Menu(new MenuItem*[] { 
-		new MenuItem(ID_EMPTY, "The stats has been printed\ninto a console.", 256, 86),
-			new MenuItem(ID_EMPTY, " ", 0, 16),
-			new MenuItem(ID_BACK_TO_MENU, "<--", 64, 48),
-	}, 3, &menuBtnClick);
-
-	menuAbout = new Menu(new MenuItem*[] {
-		new MenuItem(ID_EMPTY, "Artem Chepurnoy\n<mail@artemchep.com>\n\nFifteen Cube is a free open\nsource game, created by a\nC++/OGL newbie as the uni\nproject.", 256, 200),
-			new MenuItem(ID_EMPTY, " ", 0, 16),
-			new MenuItem(ID_BACK_TO_MENU, "<--", 64, 48),
-	}, 3, &menuBtnClick);
-
-	menuHelp = new Menu(new MenuItem*[] {
-		new MenuItem(ID_EMPTY, "Rearrange the cubes as\nfollows:\n\n19-20-21  10-11-12  1-2-3\n22-23-24  13-14-15  4-5-6\n25-26        16-17-18  7-8-9\n\nusing Q,A,W,S,E,D keys\nto move.", 256, 200),
-			new MenuItem(ID_EMPTY, " ", 0, 16),
-			new MenuItem(ID_BACK_TO_MENU, "<--", 64, 48),
-	}, 3, &menuBtnClick);
-
+	/* You have won the game */
 	menuComplete = new Menu(new MenuItem*[] {
-		new MenuItem(ID_EMPTY, "Congrats on your victory!", 256, 48),
-			new MenuItem(ID_EMPTY, " ", 0, 16),
-			new MenuItem(ID_BACK_TO_MENU, "<--", 64, 48),
+			new MenuItem(ID_EMPTY, "Congratulations!\nYou have solved the puzzle!", 256, 48),
+			space,
+			back,
 	}, 3, &menuBtnClick);
 }
 
@@ -649,7 +658,7 @@ void main(int argc, char **argv)
 	glutInitWindowSize(1024, 786);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-	glutCreateWindow("Fifteen Cube Puzzle <mail@artemchep.com>");
+	glutCreateWindow("Puzzle Cube <mail@artemchep.com>");
 	glutFullScreen();
 
 	glutDisplayFunc(render);
