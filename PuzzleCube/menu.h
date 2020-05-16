@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glut.h>
+#include <GLUT/glut.h>
 
 #include "menu_item.h"
 #include "math_utils.h"

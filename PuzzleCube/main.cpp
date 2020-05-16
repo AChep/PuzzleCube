@@ -1,4 +1,4 @@
-﻿#include <GL/glut.h>
+﻿#include <GLUT/glut.h>
 #include <math.h>
 #include <iostream>
 
@@ -600,56 +600,62 @@ void initMenu()
 	MenuItem* back = new MenuItem(ID_BACK_TO_MENU, "<--", 64, 48);
 
 	/* Main menu of the game */
-	menu = new Menu(new MenuItem*[] {
+	MenuItem* menuItems [] = {
 			new MenuItem(ID_GAME_NEW, "New game", 156, 48),
 			new MenuItem(ID_GAME_LOAD, "Load", 156, 48),
 			new MenuItem(ID_MENU_STATS, "Stats", 156, 48),
 			new MenuItem(ID_MENU_ABOUT, "About", 156, 48),
 			new MenuItem(ID_MENU_HELP, "Help", 156, 48),
 			new MenuItem(ID_BACK_TO_OS, "Exit", 156, 48),
-	}, 6, &menuBtnClick);
+	}; 
+	menu = new Menu(menuItems, 6, &menuBtnClick);
 
 	/* Stats */
-	menuStats = new Menu(new MenuItem*[] { 
+	MenuItem* menuStatsItems [] = {
 			new MenuItem(ID_EMPTY, "The stats has been printed\nto console.", 256, 86),
 			space,
 			back,
-	}, 3, &menuBtnClick);
+	}; 
+	menuStats = new Menu(menuStatsItems, 3, &menuBtnClick);
 
 	/* About */
-	menuAbout = new Menu(new MenuItem*[] {
+	MenuItem* menuAboutItems [] = {
 			new MenuItem(ID_EMPTY, "(c) Artem Chepurnoy\n<mail@artemchep.com>\n\nPuzzle Cube is a free open\nsource game, created by a\nC++/OGL newbie as the uni\nproject.", 256, 200),
 			space,
 			back,
-	}, 3, &menuBtnClick);
+	}; 
+	menuAbout = new Menu(menuAboutItems, 3, &menuBtnClick);
 
 	/* Help */
-	menuHelp = new Menu(new MenuItem*[] {
+	MenuItem* menuHelpItems [] = {
 			new MenuItem(ID_EMPTY, "Rearrange the tiles as\nfollows:\n\n19-20-21  10-11-12  1-2-3\n22-23-24  13-14-15  4-5-6\n25-26        16-17-18  7-8-9\n\nusing Q,A,W,S,E,D keys\nto move.", 256, 200),
 			space,
 			back,
-	}, 3, &menuBtnClick);
+	}; 
+	menuHelp = new Menu(menuHelpItems, 3, &menuBtnClick);
 
 	/* Pause */
-	menuPause = new Menu(new MenuItem*[] {
+	MenuItem* menuPauseItems [] = {
 			new MenuItem(ID_GAME_NEW, "New game", 156, 48),
 			new MenuItem(ID_GAME_RESUME, "Resume", 156, 48),
 			new MenuItem(ID_GAME_SAVE, "Save", 156, 48),
 			new MenuItem(ID_GAME_LOAD, "Load", 156, 48),
 			space,
 			back,	
-	}, 6, &menuBtnClick);
+	}; 
+	menuPause = new Menu(menuPauseItems, 6, &menuBtnClick);
 
 	/* You have won the game */
-	menuComplete = new Menu(new MenuItem*[] {
+	MenuItem* menuCompleteItems [] = {
 			new MenuItem(ID_EMPTY, "Congratulations!\nYou have solved the puzzle!", 256, 48),
 			space,
 			back,
-	}, 3, &menuBtnClick);
+	}; 
+	menuComplete = new Menu(menuCompleteItems, 3, &menuBtnClick);
 }
 
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	initLogic();
 	initMenu();
@@ -671,4 +677,5 @@ void main(int argc, char **argv)
 
 	glClearColor(.15f, .15f, .15f, 1.f);
 	glutMainLoop();
+	return 0;
 }
